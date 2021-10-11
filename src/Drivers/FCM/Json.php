@@ -1,0 +1,99 @@
+<?php
+
+namespace Sunaoka\PushNotifications\Drivers\FCM;
+
+use Exception;
+use GuzzleHttp;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use Sunaoka\PushNotifications\Drivers\Driver;
+use Sunaoka\PushNotifications\Drivers\Feedback;
+use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
+
+/**
+ * @property Json\Option $options
+ */
+class Json extends Driver
+{
+    /**
+     * @var string
+     */
+    protected $endpointSandbox = 'https://fcm.googleapis.com/fcm/send';
+
+    /**
+     * @var string
+     */
+    protected $endpointProduction = 'https://fcm.googleapis.com/fcm/send';
+
+    /**
+     * @var Feedback
+     */
+    private $feedback;
+
+    /**
+     * @var GuzzleHttp\Client
+     */
+    private $httpClient;
+
+    /**
+     * @param Json\Option $options
+     *
+     * @throws OptionTypeError
+     */
+    public function __construct($options)
+    {
+        if (!$options instanceof Json\Option) {
+            throw new OptionTypeError(Json\Option::class, $options);
+        }
+
+        $this->options = $options;
+        $this->feedback = new Feedback();
+    }
+
+    /**
+     * @return Feedback
+     */
+    public function send()
+    {
+        $this->httpClient = $this->getHttpClient();
+
+        try {
+            $options = [
+                'headers' => [
+                    'Authorization' => "key={$this->options->apiKey}",
+                ],
+                'json'    => array_merge(
+                    $this->options->payload,
+                    ['registration_ids' => $this->devices]
+                ),
+            ];
+
+            $response = $this->httpClient->post($this->getEndpoint(), $options);
+
+            $contents = json_decode($response->getBody()->getContents(), true);
+
+            foreach ($this->devices as $index => $device) {
+                $result = $contents['results'][$index];
+                if (isset($result['message_id'])) {
+                    $this->feedback->addSuccess($device, $result['message_id']);
+                } elseif (isset($result['error'])) {
+                    $this->feedback->addFailure($device, $result['error']);
+                }
+            }
+
+            return $this->feedback;
+        } catch (ClientException $e) {
+            $message = $e->getResponse()->getBody()->getContents();
+        } catch (ServerException $e) {
+            $message = $e->getResponse()->getReasonPhrase();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        foreach ($this->devices as $device) {
+            $this->feedback->addFailure($device, $message);
+        }
+
+        return $this->feedback;
+    }
+}
