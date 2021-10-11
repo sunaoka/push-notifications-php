@@ -4,9 +4,6 @@ namespace Sunaoka\PushNotifications\Drivers\APNs;
 
 use Exception;
 use GuzzleHttp;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use Psr\Http\Message\ResponseInterface;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -92,34 +89,15 @@ class Certificate extends Driver
             $this->feedback->addSuccess($device, $apnsId);
 
             return;
-        } catch (ClientException $e) {
-            $message = $this->getReason($e->getResponse());
-        } catch (ServerException $e) {
-            $message = $e->getResponse()->getReasonPhrase();
         } catch (Exception $e) {
-            $message = $e->getMessage();
+            $error = $this->parseErrorResponse($e);
         }
 
-        $this->feedback->addFailure($device, $message);
-    }
-
-    /**
-     * @param ResponseInterface $response
-     *
-     * @return string
-     */
-    private function getReason($response)
-    {
-        $contents = $response->getBody()->getContents();
-        if (empty($contents)) {
-            return $response->getReasonPhrase();
+        if (isset($error['contents'])) {
+            $json = json_decode($error['contents'], true);
+            $this->feedback->addFailure($device, $json['reason']);
+        } else {
+            $this->feedback->addFailure($device, $error['message']);
         }
-
-        $json = json_decode($contents, true);
-        if (!isset($json['reason'])) {
-            return $response->getReasonPhrase();
-        }
-
-        return $json['reason'];
     }
 }

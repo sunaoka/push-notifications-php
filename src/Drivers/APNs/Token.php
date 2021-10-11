@@ -4,9 +4,6 @@ namespace Sunaoka\PushNotifications\Drivers\APNs;
 
 use Exception;
 use GuzzleHttp;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use Psr\Http\Message\ResponseInterface;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -93,15 +90,16 @@ class Token extends Driver
             $this->feedback->addSuccess($device, $apnsId);
 
             return;
-        } catch (ClientException $e) {
-            $message = $this->getReason($e->getResponse());
-        } catch (ServerException $e) {
-            $message = $this->getReason($e->getResponse());
         } catch (Exception $e) {
-            $message = $e->getMessage();
+            $error = $this->parseErrorResponse($e);
         }
 
-        $this->feedback->addFailure($device, $message);
+        if (isset($error['contents'])) {
+            $json = json_decode($error['contents'], true);
+            $this->feedback->addFailure($device, $json['reason']);
+        } else {
+            $this->feedback->addFailure($device, $error['message']);
+        }
     }
 
     /**
@@ -131,25 +129,5 @@ class Token extends Driver
     private function jwtEncode($input)
     {
         return str_replace('=', '', strtr(base64_encode(json_encode($input)), '+/', '-_'));
-    }
-
-    /**
-     * @param ResponseInterface $response
-     *
-     * @return string
-     */
-    private function getReason($response)
-    {
-        $contents = $response->getBody()->getContents();
-        if (empty($contents)) {
-            return $response->getReasonPhrase();
-        }
-
-        $json = json_decode($contents, true);
-        if (!isset($json['reason'])) {
-            return $response->getReasonPhrase();
-        }
-
-        return $json['reason'];
     }
 }

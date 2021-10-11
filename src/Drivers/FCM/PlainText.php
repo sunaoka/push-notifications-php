@@ -4,8 +4,6 @@ namespace Sunaoka\PushNotifications\Drivers\FCM;
 
 use Exception;
 use GuzzleHttp;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -99,14 +97,10 @@ class PlainText extends Driver
             }
 
             return;
-        } catch (ClientException $e) {
-            $message = $e->getResponse()->getReasonPhrase();
-        } catch (ServerException $e) {
-            $message = $e->getResponse()->getReasonPhrase();
         } catch (Exception $e) {
-            $message = $e->getMessage();
+            $error = $this->parseErrorResponse($e);
         }
 
-        $this->feedback->addFailure($device, $message);
+        $this->feedback->addFailure($device, $error['message']);
     }
 }
