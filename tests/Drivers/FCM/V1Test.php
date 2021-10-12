@@ -2,8 +2,10 @@
 
 namespace Sunaoka\PushNotifications\Tests\Drivers\FCM;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Sunaoka\PushNotifications\Drivers\FCM;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -242,7 +244,7 @@ class V1Test extends TestCase
         new FCM\V1(new FakeOption());
     }
 
-    public function testServerFailure()
+    public function testRequestFailure()
     {
         $payload = [
             'message' => [
@@ -270,5 +272,35 @@ class V1Test extends TestCase
 
         self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
+    }
+
+    public function testRequestException()
+    {
+        $payload = [
+            'message' => [
+                'notification' => [
+                    'title' => 'title',
+                ],
+            ],
+        ];
+
+        $options = new FCM\V1\Option();
+        $options->payload = $payload;
+        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->projectId = 'fake-project-id';
+
+        $driver = new FCM\V1($options);
+        $driver->setHttpHandler(HandlerStack::create(
+            new MockHandler([
+                new RequestException('Error Communicating with Server', new Request('POST', '/')),
+            ])
+        ));
+
+        $pusher = new Pusher();
+        $feedback = $pusher->to('1234567890')
+            ->send($driver);
+
+        self::assertFalse($feedback->isSuccess('1234567890'));
+        self::assertSame('Error Communicating with Server', $feedback->failure('1234567890'));
     }
 }

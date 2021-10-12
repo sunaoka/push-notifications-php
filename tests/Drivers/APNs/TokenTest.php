@@ -2,8 +2,10 @@
 
 namespace Sunaoka\PushNotifications\Tests\Drivers\APNs;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Sunaoka\PushNotifications\Drivers\APNs;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -214,7 +216,7 @@ class TokenTest extends TestCase
         new APNs\Token(new FakeOption());
     }
 
-    public function testServerFailure()
+    public function testRequestFailure()
     {
         $payload = [
             'data' => [
@@ -242,5 +244,35 @@ class TokenTest extends TestCase
 
         self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
+    }
+
+    public function testRequestException()
+    {
+        $payload = [
+            'data' => [
+                'key' => 'value',
+            ],
+        ];
+
+        $options = new APNs\Token\Option();
+        $options->payload = $payload;
+        $options->authKey = file_get_contents($this->certs('/fake.p8'));
+        $options->keyId = 'ABCDE12345';
+        $options->teamId = 'ABCDE12345';
+        $options->topic = 'com.example.app';
+
+        $driver = new APNs\Token($options);
+        $driver->setHttpHandler(HandlerStack::create(
+            new MockHandler([
+                new RequestException('Error Communicating with Server', new Request('POST', '/')),
+            ])
+        ));
+
+        $pusher = new Pusher();
+        $feedback = $pusher->to('1234567890')
+            ->send($driver);
+
+        self::assertFalse($feedback->isSuccess('1234567890'));
+        self::assertSame('Error Communicating with Server', $feedback->failure('1234567890'));
     }
 }
