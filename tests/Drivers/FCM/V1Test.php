@@ -241,4 +241,34 @@ class V1Test extends TestCase
 
         new FCM\V1(new FakeOption());
     }
+
+    public function testServerFailure()
+    {
+        $payload = [
+            'message' => [
+                'notification' => [
+                    'title' => 'title',
+                ],
+            ],
+        ];
+
+        $options = new FCM\V1\Option();
+        $options->payload = $payload;
+        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->projectId = 'fake-project-id';
+
+        $driver = new FCM\V1($options);
+        $driver->setHttpHandler(HandlerStack::create(
+            new MockHandler([
+                new Response(500),
+            ])
+        ));
+
+        $pusher = new Pusher();
+        $feedback = $pusher->to('1234567890')
+            ->send($driver);
+
+        self::assertFalse($feedback->isSuccess('1234567890'));
+        self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
+    }
 }

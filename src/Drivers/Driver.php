@@ -136,7 +136,7 @@ abstract class Driver implements DriverInterface
 
         return [
             'message'  => $message,
-            'contents' => $contents,
+            'contents' => !empty($contents) ? $contents : null,
         ];
     }
 }

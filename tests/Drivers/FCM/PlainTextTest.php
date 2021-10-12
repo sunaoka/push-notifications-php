@@ -155,4 +155,29 @@ class PlainTextTest extends TestCase
 
         new FCM\PlainText(new FakeOption());
     }
+
+    public function testServerFailure()
+    {
+        $payload = [
+            'data.key' => 'value',
+        ];
+
+        $options = new FCM\PlainText\Option();
+        $options->payload = $payload;
+        $options->apiKey = 'fake-api-key';
+
+        $driver = new FCM\PlainText($options);
+        $driver->setHttpHandler(HandlerStack::create(
+            new MockHandler([
+                new Response(500),
+            ])
+        ));
+
+        $pusher = new Pusher();
+        $feedback = $pusher->to('1234567890')
+            ->send($driver);
+
+        self::assertFalse($feedback->isSuccess('1234567890'));
+        self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
+    }
 }
