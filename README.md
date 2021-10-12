@@ -1,6 +1,6 @@
 # Push notifications Library for PHP
 
-[![Latest](https://poser.pugx.org/sunaoka/lpush-notifications-php/v)](https://packagist.org/packages/sunaoka/lpush-notifications-php)
+[![Latest](https://poser.pugx.org/sunaoka/push-notifications-php/v)](https://packagist.org/packages/sunaoka/push-notifications-php)
 [![License](https://poser.pugx.org/sunaoka/push-notifications-php/license)](https://packagist.org/packages/sunaoka/push-notifications-php)
 [![PHP](https://img.shields.io/packagist/php-v/sunaoka/push-notifications-php)](composer.json)
 [![Test](https://github.com/sunaoka/push-notifications-php/actions/workflows/test.yml/badge.svg)](https://github.com/sunaoka/push-notifications-php/actions/workflows/test.yml)
