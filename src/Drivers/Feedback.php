@@ -20,19 +20,22 @@ class Feedback
      */
     public function __construct($success = [], $failure = [])
     {
-        $this->success = $success;
-        $this->failure = $failure;
+        $this->set($success, $failure);
+    }
+
+    public function clear()
+    {
+        $this->set([], []);
     }
 
     /**
      * @param array $success
      * @param array $failure
-     *
-     * @return self
      */
-    public static function make($success = [], $failure = [])
+    private function set($success, $failure)
     {
-        return new self($success, $failure);
+        $this->success = $success;
+        $this->failure = $failure;
     }
 
     /**
@@ -75,5 +78,15 @@ class Feedback
     public function failure($token)
     {
         return isset($this->failure[$token]) ? $this->failure[$token] : null;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return bool
+     */
+    public function isSuccess($token)
+    {
+        return isset($this->success[$token]);
     }
 }
