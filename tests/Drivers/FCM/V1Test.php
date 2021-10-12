@@ -26,7 +26,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = $this->certs('/fake.json');
+        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
@@ -42,6 +42,7 @@ class V1Test extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
@@ -57,7 +58,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = $this->certs('/fake.json');
+        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
@@ -79,8 +80,42 @@ class V1Test extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertTrue($feedback->isSuccess('abcdefghij'));
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
+    }
+
+    public function testAuthKeyIsFile()
+    {
+        $payload = [
+            'message' => [
+                'notification' => [
+                    'title' => 'title',
+                ],
+            ],
+        ];
+
+        $options = new FCM\V1\Option();
+        $options->payload = $payload;
+        $options->credentials = $this->certs('/fake.json');
+        $options->projectId = 'fake-project-id';
+
+        $driver = new FCM\V1($options);
+        $driver->setHttpHandler(HandlerStack::create(
+            new MockHandler([
+                new Response(200, [], json_encode([
+                    'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
+                ])),
+            ])
+        ));
+
+        $pusher = new Pusher();
+        $feedback = $pusher->to('1234567890')
+            ->send($driver);
+
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
     public function testSingleFailure()
@@ -121,6 +156,7 @@ class V1Test extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('INVALID_ARGUMENT', $feedback->failure('1234567890'));
     }
 
@@ -168,6 +204,8 @@ class V1Test extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertFalse($feedback->isSuccess('abcdefghij'));
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('INVALID_ARGUMENT', $feedback->failure('abcdefghij'));
     }

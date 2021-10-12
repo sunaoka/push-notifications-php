@@ -39,6 +39,7 @@ class CertificateTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
         self::assertSame('01234567-0123-0123-0123-01234567890A', $feedback->success('1234567890'));
     }
 
@@ -71,6 +72,8 @@ class CertificateTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertTrue($feedback->isSuccess('abcdefghij'));
         self::assertSame('01234567-0123-0123-0123-01234567890A', $feedback->success('1234567890'));
         self::assertSame('01234567-0123-0123-0123-01234567890B', $feedback->success('abcdefghij'));
     }
@@ -100,6 +103,7 @@ class CertificateTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('BadDeviceToken', $feedback->failure('1234567890'));
     }
 
@@ -132,6 +136,8 @@ class CertificateTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertFalse($feedback->isSuccess('abcdefghij'));
         self::assertSame('01234567-0123-0123-0123-01234567890A', $feedback->success('1234567890'));
         self::assertSame('BadDeviceToken', $feedback->failure('abcdefghij'));
     }

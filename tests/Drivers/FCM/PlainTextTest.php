@@ -35,6 +35,7 @@ class PlainTextTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
@@ -63,6 +64,8 @@ class PlainTextTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertTrue($feedback->isSuccess('abcdefghij'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
     }
@@ -88,6 +91,7 @@ class PlainTextTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('MissingRegistration', $feedback->failure('1234567890'));
     }
 
@@ -116,6 +120,8 @@ class PlainTextTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertFalse($feedback->isSuccess('abcdefghij'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('MissingRegistration', $feedback->failure('abcdefghij'));
     }

@@ -23,6 +23,9 @@ class Feedback
         $this->set($success, $failure);
     }
 
+    /**
+     * @return void
+     */
     public function clear()
     {
         $this->set([], []);
@@ -31,6 +34,8 @@ class Feedback
     /**
      * @param array $success
      * @param array $failure
+     *
+     * @return void
      */
     private function set($success, $failure)
     {

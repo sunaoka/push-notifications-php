@@ -45,6 +45,7 @@ class JsonTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
@@ -83,6 +84,8 @@ class JsonTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertTrue($feedback->isSuccess('abcdefghij'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
     }
@@ -118,6 +121,7 @@ class JsonTest extends TestCase
         $feedback = $pusher->to('1234567890')
             ->send($driver);
 
+        self::assertFalse($feedback->isSuccess('1234567890'));
         self::assertSame('InvalidRegistration', $feedback->failure('1234567890'));
     }
 
@@ -135,16 +139,17 @@ class JsonTest extends TestCase
 
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
-            new MockHandler([                new Response(200, [], json_encode([
-                'multicast_id'  => 1234567890123456789,
-                'success'       => 0,
-                'failure'       => 1,
-                'canonical_ids' => 0,
-                'results'       => [
-                    ['message_id' => '0:1632441600000000%d00000000000000a'],
-                    ['error' => 'InvalidRegistration'],
-                ],
-            ])),
+            new MockHandler([
+                new Response(200, [], json_encode([
+                    'multicast_id'  => 1234567890123456789,
+                    'success'       => 0,
+                    'failure'       => 1,
+                    'canonical_ids' => 0,
+                    'results'       => [
+                        ['message_id' => '0:1632441600000000%d00000000000000a'],
+                        ['error' => 'InvalidRegistration'],
+                    ],
+                ])),
                 new Response(200, [], json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
@@ -165,6 +170,8 @@ class JsonTest extends TestCase
         ])
             ->send($driver);
 
+        self::assertTrue($feedback->isSuccess('1234567890'));
+        self::assertFalse($feedback->isSuccess('abcdefghij'));
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
         self::assertSame('InvalidRegistration', $feedback->failure('abcdefghij'));
     }
