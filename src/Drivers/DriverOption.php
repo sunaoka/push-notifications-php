@@ -13,6 +13,15 @@ abstract class DriverOption implements DriverOptionInterface
     public $payload = [];
 
     /**
+     * Guzzle Request Options
+     *
+     * <https://docs.guzzlephp.org/en/stable/request-options.html>
+     *
+     * @var array
+     */
+    public $httpOptions = [];
+
+    /**
      * @var string[][]
      */
     protected $validationRules = [];

@@ -17,12 +17,12 @@ class Token extends Driver
     /**
      * @var string
      */
-    protected $endpointSandbox = 'https://api.sandbox.push.apple.com/3/device/';
+    protected $endpointSandbox = 'https://api.sandbox.push.apple.com/3/device/%s';
 
     /**
      * @var string
      */
-    protected $endpointProduction = 'https://api.push.apple.com/3/device/';
+    protected $endpointProduction = 'https://api.push.apple.com/3/device/%s';
 
     /**
      * @var Feedback
@@ -54,9 +54,9 @@ class Token extends Driver
      */
     public function send()
     {
-        $this->httpClient = $this->getHttpClient([
+        $this->httpClient = $this->getHttpClient(array_merge($this->options->httpOptions, [
             'version' => 2.0,
-        ]);
+        ]));
 
         foreach ($this->devices as $device) {
             $this->_send($device);

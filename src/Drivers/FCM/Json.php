@@ -53,7 +53,7 @@ class Json extends Driver
      */
     public function send()
     {
-        $this->httpClient = $this->getHttpClient();
+        $this->httpClient = $this->getHttpClient($this->options->httpOptions);
 
         try {
             $options = [

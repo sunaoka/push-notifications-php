@@ -57,7 +57,7 @@ class PlainText extends Driver
      */
     public function send()
     {
-        $this->httpClient = $this->getHttpClient();
+        $this->httpClient = $this->getHttpClient($this->options->httpOptions);
 
         foreach ($this->devices as $device) {
             $this->_send($device);
