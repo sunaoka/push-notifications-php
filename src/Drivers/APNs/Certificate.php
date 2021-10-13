@@ -53,13 +53,13 @@ class Certificate extends Driver
      */
     public function send()
     {
-        $this->httpClient = $this->getHttpClient([
+        $this->httpClient = $this->getHttpClient(array_merge($this->options->httpOptions, [
             'version' => 2.0,
             'cert'    => [
                 $this->options->certificate,
                 $this->options->password,
             ],
-        ]);
+        ]));
 
         foreach ($this->devices as $device) {
             $this->_send($device);
