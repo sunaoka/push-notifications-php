@@ -17,12 +17,12 @@ class Token extends Driver
     /**
      * @var string
      */
-    protected $endpointSandbox = 'https://api.sandbox.push.apple.com/3/device/';
+    protected $endpointSandbox = 'https://api.sandbox.push.apple.com/3/device/%s';
 
     /**
      * @var string
      */
-    protected $endpointProduction = 'https://api.push.apple.com/3/device/';
+    protected $endpointProduction = 'https://api.push.apple.com/3/device/%s';
 
     /**
      * @var Feedback
