@@ -92,7 +92,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = "file://{$this->certs('/fake.p8')}";
+        $options->authKey = $this->certs('/fake.p8');
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -122,7 +122,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = "file://{$this->certs('/fake.p8')}";
+        $options->authKey = $this->certs('/fake.p8');
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -152,7 +152,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = "file://{$this->certs('/fake.p8')}";
+        $options->authKey = $this->certs('/fake.p8');
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -188,14 +188,14 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option([
             'payload' => $payload,
-            'authKey' => "file://{$this->certs('/fake.p8')}",
+            'authKey' => $this->certs('/fake.p8'),
             'keyId'   => 'ABCDE12345',
             'teamId'  => 'ABCDE12345',
             'topic'   => 'com.example.app',
         ]);
 
         self::assertSame($payload, $options->payload);
-        self::assertSame("file://{$this->certs('/fake.p8')}", $options->authKey);
+        self::assertSame($this->certs('/fake.p8'), $options->authKey);
         self::assertSame('ABCDE12345', $options->keyId);
         self::assertSame('ABCDE12345', $options->teamId);
         self::assertSame('com.example.app', $options->topic);

@@ -1,6 +1,6 @@
 # Push notifications Library for PHP
 
-[![Latest](https://poser.pugx.org/sunaoka/lpush-notifications-php/v)](https://packagist.org/packages/sunaoka/lpush-notifications-php)
+[![Latest](https://poser.pugx.org/sunaoka/push-notifications-php/v)](https://packagist.org/packages/sunaoka/push-notifications-php)
 [![License](https://poser.pugx.org/sunaoka/push-notifications-php/license)](https://packagist.org/packages/sunaoka/push-notifications-php)
 [![PHP](https://img.shields.io/packagist/php-v/sunaoka/push-notifications-php)](composer.json)
 [![Test](https://github.com/sunaoka/push-notifications-php/actions/workflows/test.yml/badge.svg)](https://github.com/sunaoka/push-notifications-php/actions/workflows/test.yml)
@@ -71,7 +71,7 @@ There are two ways to specify the option.
 ```php
 $options = new APNs\Token\Option();
 $options->payload = $payload;
-$options->authKey = 'file:///path/to/key.p8';
+$options->authKey = '/path/to/key.p8';
 $options->keyId = 'ABCDE12345';
 $options->teamId = 'ABCDE12345';
 $options->topic = 'com.example.app';
@@ -82,7 +82,7 @@ or
 ```php
 $options = new APNs\Token\Option([
     'payload' => $payload,
-    'authKey' => 'file:///path/to/key.p8',
+    'authKey' => '/path/to/key.p8',
     'keyId'   => 'ABCDE12345',
     'teamId'  => 'ABCDE12345',
     'topic'   => 'com.example.app',
