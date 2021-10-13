@@ -112,6 +112,10 @@ class Token extends Driver
      */
     private function bearerToken($authKey, $keyId, $teamId)
     {
+        if (file_exists($authKey)) {
+            $authKey = "file://{$authKey}";
+        }
+
         $key = openssl_pkey_get_private($authKey);
         if ($key === false) {
             throw new RuntimeException(openssl_error_string());  // @codeCoverageIgnore

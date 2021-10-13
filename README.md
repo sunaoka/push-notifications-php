@@ -71,7 +71,7 @@ There are two ways to specify the option.
 ```php
 $options = new APNs\Token\Option();
 $options->payload = $payload;
-$options->authKey = 'file:///path/to/key.p8';
+$options->authKey = '/path/to/key.p8';
 $options->keyId = 'ABCDE12345';
 $options->teamId = 'ABCDE12345';
 $options->topic = 'com.example.app';
@@ -82,7 +82,7 @@ or
 ```php
 $options = new APNs\Token\Option([
     'payload' => $payload,
-    'authKey' => 'file:///path/to/key.p8',
+    'authKey' => '/path/to/key.p8',
     'keyId'   => 'ABCDE12345',
     'teamId'  => 'ABCDE12345',
     'topic'   => 'com.example.app',
