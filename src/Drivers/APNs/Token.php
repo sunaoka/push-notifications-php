@@ -4,6 +4,7 @@ namespace Sunaoka\PushNotifications\Drivers\APNs;
 
 use Exception;
 use GuzzleHttp;
+use RuntimeException;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -112,22 +113,31 @@ class Token extends Driver
     private function bearerToken($authKey, $keyId, $teamId)
     {
         $key = openssl_pkey_get_private($authKey);
+        if ($key === false) {
+            throw new RuntimeException(openssl_error_string());  // @codeCoverageIgnore
+        }
 
-        $header = $this->jwtEncode(['alg' => 'ES256', 'kid' => $keyId]);
-        $claims = $this->jwtEncode(['iss' => $teamId, 'iat' => time()]);
+        $segments = [];
+        $segments[] = $this->encodeB64URLSafe(json_encode(['alg' => 'ES256', 'kid' => $keyId]));
+        $segments[] = $this->encodeB64URLSafe(json_encode(['iss' => $teamId, 'iat' => time()]));
 
-        openssl_sign("{$header}.{$claims}", $signature, $key, 'sha256');
+        $success = openssl_sign(implode('.', $segments), $signature, $key, 'sha256');
+        if ($success === false) {
+            throw new RuntimeException(openssl_error_string());  // @codeCoverageIgnore
+        }
 
-        return sprintf('bearer %s.%s.%s', $header, $claims, base64_encode($signature));
+        $segments[] = $this->encodeB64URLSafe($signature);
+
+        return 'bearer ' . implode('.', $segments);
     }
 
     /**
-     * @param array $input
+     * @param string $input
      *
      * @return string
      */
-    private function jwtEncode($input)
+    private function encodeB64URLSafe($input)
     {
-        return str_replace('=', '', strtr(base64_encode(json_encode($input)), '+/', '-_'));
+        return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
     }
 }
