@@ -137,6 +137,24 @@ if ($result) {
 }
 ```
 
+## HTTP Request Option
+
+You can specify [Guzzle Request Options] as a driver option.
+
+```php
+$options = new APNs\Token\Option();
+$options->httpOptions = [
+    'connect_timeout' => 3.14
+    'timeout'         => 3.14,
+    'debug'           => true,
+];
+```
+
+## More examples
+
+More examples can be found in the [examples](example) directory.
+
+
 [Token Based]: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_token-based_connection_to_apns
 [Certificate Based]: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns
 [Binary Provider]: https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/BinaryProviderAPI.html
@@ -144,3 +162,4 @@ if ($result) {
 [Legacy JSON]: https://firebase.google.com/docs/cloud-messaging/http-server-ref#downstream-http-messages-json
 [Legacy Plain Text]: https://firebase.google.com/docs/cloud-messaging/http-server-ref#downstream-http-messages-plain-text
 [XMPP]: https://firebase.google.com/docs/cloud-messaging/xmpp-server-ref
+[Guzzle Request Options]: https://docs.guzzlephp.org/en/stable/request-options.html
