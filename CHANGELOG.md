@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.2...develop)
+## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.3...develop)
+
+## [v1.0.3 (2021-10-14)](https://github.com/sunaoka/push-notifications-php/compare/1.0.2...1.0.3)
+
+### Added
+
+- Added examples
 
 ## [v1.0.2 (2021-10-13)](https://github.com/sunaoka/push-notifications-php/compare/1.0.1...1.0.2)
 
