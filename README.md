@@ -47,7 +47,7 @@ $payload = [
 
 $options = new APNs\Token\Option();
 $options->payload = $payload;
-$options->authKey = 'file:///path/to/key.p8';
+$options->authKey = '/path/to/key.p8';
 $options->keyId = 'ABCDE12345';
 $options->teamId = 'ABCDE12345';
 $options->topic = 'com.example.app';
