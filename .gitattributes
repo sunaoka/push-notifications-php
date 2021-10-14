@@ -2,6 +2,7 @@
 /.github export-ignore
 /.gitignore export-ignore
 /CHANGELOG.md export-ignore
+/example export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
 /tests export-ignore
