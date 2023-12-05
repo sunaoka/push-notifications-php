@@ -85,16 +85,19 @@ class V1 extends Driver
 
             $response = $this->httpClient->post($this->getEndpoint($this->options->projectId), $options);
 
+            /** @var array $contents */
             $contents = json_decode($response->getBody()->getContents(), true);
 
             $this->feedback->addSuccess($device, $contents['name']);
 
             return;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 
         if (isset($error['contents'])) {
+            /** @var array $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['error']['status']);
         } else {

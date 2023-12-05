@@ -97,6 +97,7 @@ class PlainText extends Driver
             }
 
             return;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }

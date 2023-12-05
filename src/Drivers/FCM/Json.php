@@ -68,6 +68,7 @@ class Json extends Driver
 
             $response = $this->httpClient->post($this->getEndpoint(), $options);
 
+            /** @var array $contents */
             $contents = json_decode($response->getBody()->getContents(), true);
 
             foreach ($this->devices as $index => $device) {
@@ -80,6 +81,7 @@ class Json extends Driver
             }
 
             return $this->feedback;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }

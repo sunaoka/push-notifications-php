@@ -91,11 +91,13 @@ class Token extends Driver
             $this->feedback->addSuccess($device, $apnsId);
 
             return;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 
         if (isset($error['contents'])) {
+            /** @var array $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['reason']);
         } else {
@@ -118,16 +120,16 @@ class Token extends Driver
 
         $key = openssl_pkey_get_private($authKey);
         if ($key === false) {
-            throw new RuntimeException(openssl_error_string());  // @codeCoverageIgnore
+            throw new RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
         }
 
         $segments = [];
-        $segments[] = $this->encodeB64URLSafe(json_encode(['alg' => 'ES256', 'kid' => $keyId]));
-        $segments[] = $this->encodeB64URLSafe(json_encode(['iss' => $teamId, 'iat' => time()]));
+        $segments[] = $this->encodeB64URLSafe((string) json_encode(['alg' => 'ES256', 'kid' => $keyId]));
+        $segments[] = $this->encodeB64URLSafe((string) json_encode(['iss' => $teamId, 'iat' => time()]));
 
         $success = openssl_sign(implode('.', $segments), $signature, $key, 'sha256');
         if ($success === false) {
-            throw new RuntimeException(openssl_error_string());  // @codeCoverageIgnore
+            throw new RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
         }
 
         $segments[] = $this->encodeB64URLSafe($signature);

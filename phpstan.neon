@@ -3,23 +3,20 @@ parameters:
     paths:
         - src
 
-    level: 7
+    level: 9
 
     checkMissingIterableValueType: false
 
     ignoreErrors:
-        -
-            message: '!Parameter #3 \$private_key of function openssl_sign expects!'
-            path: src/Drivers/APNs/Token.php
-        -
-            message: '!Parameter #1 \$string of function base64_encode expects string,!'
-            path: src/Drivers/APNs/Token.php
         -
             message: '!Property Sunaoka\\PushNotifications\\Drivers\\FCM\\V1::\$httpClient!'
             path: src/Drivers/FCM/V1.php
         -
             message: '!Parameter #1 \$errors of class!'
             path: src/Drivers/DriverOption.php
-#        -
-#            message: '!Else branch is unreachable because previous condition is always true!'
-#            path: src/Drivers/Driver.php
+        -
+            message: '!Else branch is unreachable because previous condition is always true!'
+            path: src/Drivers/Driver.php
+        -
+            message: "!Offset 'class' does not exist on array{function: string, line\\?: int, file\\?: string, class\\?: class-string, type\\?: '->'\\|'::', args\\?: array, object\\?: object}!"
+            path: src/Exceptions/OptionTypeError.php

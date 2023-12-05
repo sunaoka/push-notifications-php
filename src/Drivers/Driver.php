@@ -116,7 +116,7 @@ abstract class Driver implements DriverInterface
     /**
      * @param Exception $e
      *
-     * @return array{message: ?string, contents: ?string}
+     * @return array{message: string, contents: ?string}
      */
     protected function parseErrorResponse($e)
     {
