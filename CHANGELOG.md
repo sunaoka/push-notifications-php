@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.3...develop)
 
+### Changed
+
+- Deprecated FCM HTTP legacy APIs
+  - Because the FCM HTTP legacy APIs was deprecated on June 20, 2023, and will be removed in June 2024.
+
 ## [v1.0.3 (2021-10-14)](https://github.com/sunaoka/push-notifications-php/compare/1.0.2...1.0.3)
 
 ### Added

@@ -9,6 +9,8 @@ use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
 
 /**
+ * @deprecated HTTP legacy APIs was deprecated on June 20, 2023, and will be removed in June 2024.
+ *
  * @property Json\Option $options
  */
 class Json extends Driver
