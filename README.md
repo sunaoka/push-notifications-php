@@ -10,15 +10,15 @@
 
 ## Supported Protocols
 
-| Protocol                   | Supported | Driver             | Options                   |
-| -------------------------- | :-------: | ------------------ | ------------------------- |
-| APNs ([Token Based])       |  &check;  | `APNs\Token`       | `APNs\Token\Option`       |
-| APNs ([Certificate Based]) |  &check;  | `APNs\Certificate` | `APNs\Certificate\Option` |
-| APNs ([Binary Provider])   |           |                    |                           |
-| FCM ([HTTP v1])            |  &check;  | `FCM\V1`           | `FCM\V1\Option`           |
-| FCM ([Legacy JSON])        |  &check;  | `FCM\Json`         | `FCM\Json\Option`         |
-| FCM ([Legacy Plain Text])  |  &check;  | `FCM\PlainText`    | `FCM\PlainText\Option`    |
-| FCM ([XMPP])               |           |                    |                           |
+| Protocol                   | Supported  | Driver             | Options                   |
+| -------------------------- | :--------: | ------------------ | ------------------------- |
+| APNs ([Token Based])       |  &check;   | `APNs\Token`       | `APNs\Token\Option`       |
+| APNs ([Certificate Based]) |  &check;   | `APNs\Certificate` | `APNs\Certificate\Option` |
+| APNs ([Binary Provider])   |            |                    |                           |
+| FCM ([HTTP v1])            |  &check;   | `FCM\V1`           | `FCM\V1\Option`           |
+| FCM ([Legacy JSON])        | Deprecated | `FCM\Json`         | `FCM\Json\Option`         |
+| FCM ([Legacy Plain Text])  | Deprecated | `FCM\PlainText`    | `FCM\PlainText\Option`    |
+| FCM ([XMPP])               |            |                    |                           |
 
 ## Installation
 

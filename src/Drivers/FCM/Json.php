@@ -9,6 +9,8 @@ use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
 
 /**
+ * @deprecated HTTP legacy APIs was deprecated on June 20, 2023, and will be removed in June 2024.
+ *
  * @property Json\Option $options
  */
 class Json extends Driver
@@ -68,6 +70,7 @@ class Json extends Driver
 
             $response = $this->httpClient->post($this->getEndpoint(), $options);
 
+            /** @var array $contents */
             $contents = json_decode($response->getBody()->getContents(), true);
 
             foreach ($this->devices as $index => $device) {
@@ -80,6 +83,7 @@ class Json extends Driver
             }
 
             return $this->feedback;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }

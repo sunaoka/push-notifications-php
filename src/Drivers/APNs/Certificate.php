@@ -89,11 +89,13 @@ class Certificate extends Driver
             $this->feedback->addSuccess($device, $apnsId);
 
             return;
+
         } catch (Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 
         if (isset($error['contents'])) {
+            /** @var array $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['reason']);
         } else {
