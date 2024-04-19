@@ -159,7 +159,7 @@ class V1Test extends TestCase
             ->send($driver);
 
         self::assertFalse($feedback->isSuccess('1234567890'));
-        self::assertSame('INVALID_ARGUMENT', $feedback->failure('1234567890'));
+        self::assertSame('[INVALID_ARGUMENT] The registration token is not a valid FCM registration token', $feedback->failure('1234567890'));
     }
 
     public function testMultipleFailure()
@@ -209,7 +209,7 @@ class V1Test extends TestCase
         self::assertTrue($feedback->isSuccess('1234567890'));
         self::assertFalse($feedback->isSuccess('abcdefghij'));
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
-        self::assertSame('INVALID_ARGUMENT', $feedback->failure('abcdefghij'));
+        self::assertSame('[INVALID_ARGUMENT] The registration token is not a valid FCM registration token', $feedback->failure('abcdefghij'));
     }
 
     public function testMakeOption()

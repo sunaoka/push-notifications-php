@@ -99,7 +99,9 @@ class V1 extends Driver
         if (isset($error['contents'])) {
             /** @var array $json */
             $json = json_decode($error['contents'], true);
-            $this->feedback->addFailure($device, $json['error']['status']);
+            $status = !empty($json['error']['status']) ? "[{$json['error']['status']}] " : '';
+            $message = !empty($json['error']['message']) ? $json['error']['message'] : '';
+            $this->feedback->addFailure($device, "{$status}{$message}");
         } else {
             $this->feedback->addFailure($device, $error['message']);
         }
