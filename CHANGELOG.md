@@ -1,12 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.5...develop)
+## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.6...develop)
+
+## [v1.0.6 (2024-04-19)](https://github.com/sunaoka/push-notifications-php/compare/1.0.5...1.0.6)
 
 ### Changed
 
 - Support PHPUnit 11.x
 - Deprecated FCM HTTP legacy APIs
   - Because the FCM HTTP legacy APIs was deprecated on June 20, 2023, and will be removed in June 2024.
+- Support for retrieving FCM error messages.
 
 ## [v1.0.5 (2023-02-08)](https://github.com/sunaoka/push-notifications-php/compare/1.0.4...1.0.5)
 
