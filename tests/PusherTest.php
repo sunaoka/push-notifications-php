@@ -9,6 +9,11 @@ use Sunaoka\PushNotifications\Tests\Fake\FakeOption;
 
 class PusherTest extends TestCase
 {
+    /**
+     * @return void
+     *
+     * @throws ValidationException
+     */
     public function testSendFailure()
     {
         $this->expectExceptionCompat(ValidationException::class);

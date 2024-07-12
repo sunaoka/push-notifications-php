@@ -127,7 +127,7 @@ abstract class Driver implements DriverInterface
             if ($response !== null) {
                 $message = $response->getReasonPhrase();
                 $contents = $response->getBody()->getContents();
-            } else {
+            } else {  // @phpstan-ignore else.unreachable
                 $message = $e->getMessage();
             }
         } else {

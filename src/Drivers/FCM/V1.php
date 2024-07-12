@@ -59,6 +59,7 @@ class V1 extends Driver
             'scopes'      => 'https://www.googleapis.com/auth/firebase.messaging',
         ]);
 
+        // @phpstan-ignore assign.propertyType
         $this->httpClient = $client->authorize($this->getHttpClient($this->options->httpOptions));
 
         foreach ($this->devices as $device) {

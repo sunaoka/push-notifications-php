@@ -16,6 +16,12 @@ use Sunaoka\PushNotifications\Tests\TestCase;
 
 class V1Test extends TestCase
 {
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleToken()
     {
         $payload = [
@@ -28,13 +34,13 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string)json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
             ])
@@ -48,6 +54,12 @@ class V1Test extends TestCase
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleToken()
     {
         $payload = [
@@ -60,16 +72,16 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string)json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
-                new Response(200, [], json_encode([
+                new Response(200, [], (string)json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000b',
                 ])),
             ])
@@ -88,6 +100,12 @@ class V1Test extends TestCase
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testAuthKeyIsFile()
     {
         $payload = [
@@ -106,7 +124,7 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string)json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
             ])
@@ -120,6 +138,12 @@ class V1Test extends TestCase
         self::assertSame('projects/fake-project-id/messages/0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleFailure()
     {
         $payload = [
@@ -138,7 +162,7 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(400, [], json_encode([
+                new Response(400, [], (string)json_encode([
                     'error' => [
                         'code'    => 400,
                         'message' => 'The registration token is not a valid FCM registration token',
@@ -162,6 +186,12 @@ class V1Test extends TestCase
         self::assertSame('[INVALID_ARGUMENT] The registration token is not a valid FCM registration token', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleFailure()
     {
         $payload = [
@@ -180,10 +210,10 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string)json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
-                new Response(400, [], json_encode([
+                new Response(400, [], (string)json_encode([
                     'error' => [
                         'code'    => 400,
                         'message' => 'The registration token is not a valid FCM registration token',
@@ -212,6 +242,9 @@ class V1Test extends TestCase
         self::assertSame('[INVALID_ARGUMENT] The registration token is not a valid FCM registration token', $feedback->failure('abcdefghij'));
     }
 
+    /**
+     * @return void
+     */
     public function testMakeOption()
     {
         $payload = [
@@ -229,6 +262,11 @@ class V1Test extends TestCase
         self::assertSame('fake-project-id', $options->projectId);
     }
 
+    /**
+     * @return void
+     *
+     * @throws ValidationException
+     */
     public function testValidateOption()
     {
         $this->expectExceptionCompat(ValidationException::class);
@@ -237,13 +275,24 @@ class V1Test extends TestCase
         $options->validate();
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     */
     public function testInvalidOption()
     {
         $this->expectExceptionCompat(OptionTypeError::class);
 
-        new FCM\V1(new FakeOption());
+        new FCM\V1(new FakeOption());  // @phpstan-ignore argument.type
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestFailure()
     {
         $payload = [
@@ -256,7 +305,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
@@ -274,6 +323,12 @@ class V1Test extends TestCase
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestException()
     {
         $payload = [
@@ -286,7 +341,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = json_decode(file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
