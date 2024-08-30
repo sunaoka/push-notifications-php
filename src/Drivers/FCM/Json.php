@@ -42,7 +42,7 @@ class Json extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof Json\Option) {
+        if (! $options instanceof Json\Option) {
             throw new OptionTypeError(Json\Option::class, $options);
         }
 

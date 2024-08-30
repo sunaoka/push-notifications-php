@@ -41,7 +41,7 @@ class V1 extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof V1\Option) {
+        if (! $options instanceof V1\Option) {
             throw new OptionTypeError(V1\Option::class, $options);
         }
 
@@ -100,8 +100,8 @@ class V1 extends Driver
         if (isset($error['contents'])) {
             /** @var array $json */
             $json = json_decode($error['contents'], true);
-            $status = !empty($json['error']['status']) ? "[{$json['error']['status']}] " : '';
-            $message = !empty($json['error']['message']) ? $json['error']['message'] : '';
+            $status = ! empty($json['error']['status']) ? "[{$json['error']['status']}] " : '';
+            $message = ! empty($json['error']['message']) ? $json['error']['message'] : '';
             $this->feedback->addFailure($device, "{$status}{$message}");
         } else {
             $this->feedback->addFailure($device, $error['message']);

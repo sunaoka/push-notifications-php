@@ -13,16 +13,12 @@ class FakeDriver extends Driver
      *
      * @phpstan-ignore constructor.unusedParameter
      */
-    public function __construct($options)
-    {
-    }
+    public function __construct($options) {}
 
     /**
      * @return Feedback
      *
      * @phpstan-ignore return.missing
      */
-    public function send()
-    {
-    }
+    public function send() {}
 }

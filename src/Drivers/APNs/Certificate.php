@@ -40,7 +40,7 @@ class Certificate extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof Certificate\Option) {
+        if (! $options instanceof Certificate\Option) {
             throw new OptionTypeError(Certificate\Option::class, $options);
         }
 

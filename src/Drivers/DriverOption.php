@@ -50,9 +50,9 @@ abstract class DriverOption implements DriverOptionInterface
      */
     public function validate()
     {
-        $validator = new Validator((array)$this);
+        $validator = new Validator((array) $this);
         $validator->mapFieldsRules(array_merge($this->defaultValidationRules, $this->validationRules));
-        if (!$validator->validate()) {
+        if (! $validator->validate()) {
             // @phpstan-ignore argument.type
             throw new ValidationException($validator->errors());
         }

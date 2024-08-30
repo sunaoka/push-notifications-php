@@ -32,7 +32,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = (string)file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -68,7 +68,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = (string)file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -275,7 +275,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = (string)file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -311,7 +311,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = (string)file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';

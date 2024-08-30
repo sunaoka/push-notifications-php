@@ -37,7 +37,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 1,
                     'failure'       => 0,
@@ -78,7 +78,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 2,
                     'failure'       => 0,
@@ -125,7 +125,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,
@@ -166,7 +166,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,
@@ -176,7 +176,7 @@ class JsonTest extends TestCase
                         ['error' => 'InvalidRegistration'],
                     ],
                 ])),
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,

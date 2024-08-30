@@ -41,7 +41,7 @@ class Token extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof Token\Option) {
+        if (! $options instanceof Token\Option) {
             throw new OptionTypeError(Token\Option::class, $options);
         }
 

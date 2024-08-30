@@ -34,13 +34,13 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array) json_decode((string) file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
             ])
@@ -72,16 +72,16 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array) json_decode((string) file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000b',
                 ])),
             ])
@@ -124,7 +124,7 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
             ])
@@ -162,7 +162,7 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(400, [], (string)json_encode([
+                new Response(400, [], (string) json_encode([
                     'error' => [
                         'code'    => 400,
                         'message' => 'The registration token is not a valid FCM registration token',
@@ -210,10 +210,10 @@ class V1Test extends TestCase
         $driver = new FCM\V1($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], (string)json_encode([
+                new Response(200, [], (string) json_encode([
                     'name' => 'projects/fake-project-id/messages/0:1632441600000000%d00000000000000a',
                 ])),
-                new Response(400, [], (string)json_encode([
+                new Response(400, [], (string) json_encode([
                     'error' => [
                         'code'    => 400,
                         'message' => 'The registration token is not a valid FCM registration token',
@@ -305,7 +305,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array) json_decode((string) file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);
@@ -341,7 +341,7 @@ class V1Test extends TestCase
 
         $options = new FCM\V1\Option();
         $options->payload = $payload;
-        $options->credentials = (array)json_decode((string)file_get_contents($this->certs('/fake.json')), true);
+        $options->credentials = (array) json_decode((string) file_get_contents($this->certs('/fake.json')), true);
         $options->projectId = 'fake-project-id';
 
         $driver = new FCM\V1($options);

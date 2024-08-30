@@ -46,7 +46,7 @@ class PlainText extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof PlainText\Option) {
+        if (! $options instanceof PlainText\Option) {
             throw new OptionTypeError(PlainText\Option::class, $options);
         }
 
