@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      latest_php: 8.3
+      latest_php: 8.4
 
     strategy:
       fail-fast: false
@@ -48,7 +48,7 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
