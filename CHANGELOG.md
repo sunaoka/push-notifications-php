@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.0.6...develop)
+## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.1.0...develop)
+
+## [v1.1.0 (2024-12-13)](https://github.com/sunaoka/push-notifications-php/compare/1.0.6...1.1.0)
+
+### Added
+
+- Support PHP 8.4
+
+### Changed
+
+- Types are specified in the array.
 
 ## [v1.0.6 (2024-04-19)](https://github.com/sunaoka/push-notifications-php/compare/1.0.5...1.0.6)
 
