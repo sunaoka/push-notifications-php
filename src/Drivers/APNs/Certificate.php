@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers\APNs;
 
-use Exception;
 use GuzzleHttp;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
@@ -91,7 +90,7 @@ class Certificate extends Driver
 
             return;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 

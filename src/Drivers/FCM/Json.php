@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers\FCM;
 
-use Exception;
 use GuzzleHttp;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
@@ -85,7 +84,7 @@ class Json extends Driver
 
             return $this->feedback;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 

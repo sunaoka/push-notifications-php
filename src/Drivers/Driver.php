@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers;
 
-use Exception;
 use GuzzleHttp;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -114,7 +113,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param Exception $e
+     * @param \Exception $e
      *
      * @return array{message: string, contents: ?string}
      */

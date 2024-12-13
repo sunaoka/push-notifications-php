@@ -2,9 +2,7 @@
 
 namespace Sunaoka\PushNotifications\Drivers\APNs;
 
-use Exception;
 use GuzzleHttp;
-use RuntimeException;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
 use Sunaoka\PushNotifications\Exceptions\OptionTypeError;
@@ -93,7 +91,7 @@ class Token extends Driver
 
             return;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 
@@ -121,7 +119,7 @@ class Token extends Driver
 
         $key = openssl_pkey_get_private($authKey);
         if ($key === false) {
-            throw new RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
+            throw new \RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
         }
 
         $segments = [];
@@ -130,7 +128,7 @@ class Token extends Driver
 
         $success = openssl_sign(implode('.', $segments), $signature, $key, 'sha256');
         if ($success === false) {
-            throw new RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
+            throw new \RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
         }
 
         /** @var string $signature */
