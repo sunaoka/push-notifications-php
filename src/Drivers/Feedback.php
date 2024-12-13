@@ -5,18 +5,18 @@ namespace Sunaoka\PushNotifications\Drivers;
 class Feedback
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $success;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $failure;
 
     /**
-     * @param array $success
-     * @param array $failure
+     * @param array<string, string> $success
+     * @param array<string, string> $failure
      */
     public function __construct($success = [], $failure = [])
     {
@@ -32,8 +32,8 @@ class Feedback
     }
 
     /**
-     * @param array $success
-     * @param array $failure
+     * @param array<string, string> $success
+     * @param array<string, string> $failure
      *
      * @return void
      */

@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers\APNs;
 
-use Exception;
 use GuzzleHttp;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
@@ -40,7 +39,8 @@ class Certificate extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof Certificate\Option) {
+        // @phpstan-ignore instanceof.alwaysTrue
+        if (! $options instanceof Certificate\Option) {
             throw new OptionTypeError(Certificate\Option::class, $options);
         }
 
@@ -90,12 +90,12 @@ class Certificate extends Driver
 
             return;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 
         if (isset($error['contents'])) {
-            /** @var array $json */
+            /** @var array{reason: string} $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['reason']);
         } else {

@@ -8,16 +8,15 @@ use Valitron\Validator;
 abstract class DriverOption implements DriverOptionInterface
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     public $payload = [];
 
     /**
      * Guzzle Request Options
      *
-     * <https://docs.guzzlephp.org/en/stable/request-options.html>
-     *
-     * @var array
+     * @var array<string, mixed>
+     * @link https://docs.guzzlephp.org/en/stable/request-options.html
      */
     public $httpOptions = [];
 
@@ -33,9 +32,6 @@ abstract class DriverOption implements DriverOptionInterface
         'payload' => ['required'],
     ];
 
-    /**
-     * @inheritDoc
-     */
     public function __construct($options = [])
     {
         foreach ($options as $key => $value) {
@@ -45,14 +41,12 @@ abstract class DriverOption implements DriverOptionInterface
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function validate()
     {
-        $validator = new Validator((array)$this);
+        $validator = new Validator((array) $this);
         $validator->mapFieldsRules(array_merge($this->defaultValidationRules, $this->validationRules));
-        if (!$validator->validate()) {
+        if (! $validator->validate()) {
+            // @phpstan-ignore argument.type
             throw new ValidationException($validator->errors());
         }
 

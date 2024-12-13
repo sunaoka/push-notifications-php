@@ -16,6 +16,12 @@ use Sunaoka\PushNotifications\Tests\TestCase;
 
 class JsonTest extends TestCase
 {
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleToken()
     {
         $payload = [
@@ -31,7 +37,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 1,
                     'failure'       => 0,
@@ -51,6 +57,12 @@ class JsonTest extends TestCase
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleToken()
     {
         $payload = [
@@ -66,7 +78,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 2,
                     'failure'       => 0,
@@ -92,6 +104,12 @@ class JsonTest extends TestCase
         self::assertSame('0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleFailure()
     {
         $payload = [
@@ -107,7 +125,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,
@@ -127,6 +145,12 @@ class JsonTest extends TestCase
         self::assertSame('InvalidRegistration', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleFailure()
     {
         $payload = [
@@ -142,7 +166,7 @@ class JsonTest extends TestCase
         $driver = new FCM\Json($options);
         $driver->setHttpHandler(HandlerStack::create(
             new MockHandler([
-                new Response(200, [], json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,
@@ -152,7 +176,7 @@ class JsonTest extends TestCase
                         ['error' => 'InvalidRegistration'],
                     ],
                 ])),
-                new Response(200, [], json_encode([
+                new Response(200, [], (string) json_encode([
                     'multicast_id'  => 1234567890123456789,
                     'success'       => 0,
                     'failure'       => 1,
@@ -178,6 +202,9 @@ class JsonTest extends TestCase
         self::assertSame('InvalidRegistration', $feedback->failure('abcdefghij'));
     }
 
+    /**
+     * @return void
+     */
     public function testMakeOption()
     {
         $payload = [
@@ -195,6 +222,11 @@ class JsonTest extends TestCase
         self::assertSame('fake-api-key', $options->apiKey);
     }
 
+    /**
+     * @return void
+     *
+     * @throws ValidationException
+     */
     public function testValidateOption()
     {
         $this->expectExceptionCompat(ValidationException::class);
@@ -203,13 +235,24 @@ class JsonTest extends TestCase
         $options->validate();
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     */
     public function testInvalidOption()
     {
         $this->expectExceptionCompat(OptionTypeError::class);
 
-        new FCM\Json(new FakeOption());
+        new FCM\Json(new FakeOption());  // @phpstan-ignore argument.type
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestFailure()
     {
         $payload = [
@@ -237,6 +280,12 @@ class JsonTest extends TestCase
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestException()
     {
         $payload = [

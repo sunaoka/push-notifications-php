@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers\FCM;
 
-use Exception;
 use GuzzleHttp;
 use Sunaoka\PushNotifications\Drivers\Driver;
 use Sunaoka\PushNotifications\Drivers\Feedback;
@@ -46,7 +45,8 @@ class PlainText extends Driver
      */
     public function __construct($options)
     {
-        if (!$options instanceof PlainText\Option) {
+        // @phpstan-ignore instanceof.alwaysTrue
+        if (! $options instanceof PlainText\Option) {
             throw new OptionTypeError(PlainText\Option::class, $options);
         }
 
@@ -100,7 +100,7 @@ class PlainText extends Driver
 
             return;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $this->parseErrorResponse($e);
         }
 

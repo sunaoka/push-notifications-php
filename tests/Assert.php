@@ -8,7 +8,9 @@ namespace Sunaoka\PushNotifications\Tests;
 trait Assert
 {
     /**
-     * @param string $exception
+     * @param class-string<\Throwable> $exception
+     *
+     * @return void
      */
     public function expectExceptionCompat($exception)
     {

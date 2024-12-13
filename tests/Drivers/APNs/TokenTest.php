@@ -16,6 +16,12 @@ use Sunaoka\PushNotifications\Tests\TestCase;
 
 class TokenTest extends TestCase
 {
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleToken()
     {
         $payload = [
@@ -26,7 +32,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -46,6 +52,12 @@ class TokenTest extends TestCase
         self::assertSame('01234567-0123-0123-0123-01234567890A', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleToken()
     {
         $payload = [
@@ -56,7 +68,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -82,6 +94,12 @@ class TokenTest extends TestCase
         self::assertSame('01234567-0123-0123-0123-01234567890B', $feedback->success('abcdefghij'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testAuthKeyIsFile()
     {
         $payload = [
@@ -112,6 +130,12 @@ class TokenTest extends TestCase
         self::assertSame('01234567-0123-0123-0123-01234567890A', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleFailure()
     {
         $payload = [
@@ -142,6 +166,12 @@ class TokenTest extends TestCase
         self::assertSame('BadDeviceToken', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleFailure()
     {
         $payload = [
@@ -178,6 +208,9 @@ class TokenTest extends TestCase
         self::assertSame('BadDeviceToken', $feedback->failure('abcdefghij'));
     }
 
+    /**
+     * @return void
+     */
     public function testMakeOption()
     {
         $payload = [
@@ -201,6 +234,11 @@ class TokenTest extends TestCase
         self::assertSame('com.example.app', $options->topic);
     }
 
+    /**
+     * @return void
+     *
+     * @throws ValidationException
+     */
     public function testValidateOption()
     {
         $this->expectExceptionCompat(ValidationException::class);
@@ -209,13 +247,24 @@ class TokenTest extends TestCase
         $options->validate();
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     */
     public function testInvalidOption()
     {
         $this->expectExceptionCompat(OptionTypeError::class);
 
-        new APNs\Token(new FakeOption());
+        new APNs\Token(new FakeOption());  // @phpstan-ignore argument.type
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestFailure()
     {
         $payload = [
@@ -226,7 +275,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';
@@ -246,6 +295,12 @@ class TokenTest extends TestCase
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestException()
     {
         $payload = [
@@ -256,7 +311,7 @@ class TokenTest extends TestCase
 
         $options = new APNs\Token\Option();
         $options->payload = $payload;
-        $options->authKey = file_get_contents($this->certs('/fake.p8'));
+        $options->authKey = (string) file_get_contents($this->certs('/fake.p8'));
         $options->keyId = 'ABCDE12345';
         $options->teamId = 'ABCDE12345';
         $options->topic = 'com.example.app';

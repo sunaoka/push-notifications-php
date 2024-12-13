@@ -2,7 +2,6 @@
 
 namespace Sunaoka\PushNotifications\Drivers;
 
-use Exception;
 use GuzzleHttp;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -20,7 +19,7 @@ abstract class Driver implements DriverInterface
     protected $endpointProduction = '';
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $devices;
 
@@ -48,7 +47,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param array $devices
+     * @param string[] $devices
      *
      * @return self
      */
@@ -92,7 +91,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return GuzzleHttp\Client
      */
@@ -114,7 +113,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param Exception $e
+     * @param \Exception $e
      *
      * @return array{message: string, contents: ?string}
      */
@@ -124,6 +123,7 @@ abstract class Driver implements DriverInterface
 
         if ($e instanceof ClientException || $e instanceof ServerException) {
             $response = $e->getResponse();
+            // @phpstan-ignore notIdentical.alwaysTrue
             if ($response !== null) {
                 $message = $response->getReasonPhrase();
                 $contents = $response->getBody()->getContents();
@@ -136,7 +136,7 @@ abstract class Driver implements DriverInterface
 
         return [
             'message'  => $message,
-            'contents' => !empty($contents) ? $contents : null,
+            'contents' => ! empty($contents) ? $contents : null,
         ];
     }
 }

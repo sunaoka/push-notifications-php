@@ -7,7 +7,7 @@ use Sunaoka\PushNotifications\Drivers\DriverOption;
 class Option extends DriverOption
 {
     /**
-     * @var string|array
+     * @var string|array<mixed, mixed>
      */
     public $credentials = '';
 

@@ -7,6 +7,9 @@ use Sunaoka\PushNotifications\Tests\TestCase;
 
 class FeedbackTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function test()
     {
         $feedback = new Feedback();

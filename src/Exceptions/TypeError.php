@@ -2,8 +2,4 @@
 
 namespace Sunaoka\PushNotifications\Exceptions;
 
-use Exception;
-
-class TypeError extends Exception
-{
-}
+class TypeError extends \Exception {}

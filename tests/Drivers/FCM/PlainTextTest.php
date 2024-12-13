@@ -16,6 +16,12 @@ use Sunaoka\PushNotifications\Tests\TestCase;
 
 class PlainTextTest extends TestCase
 {
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleToken()
     {
         $payload = [
@@ -41,6 +47,12 @@ class PlainTextTest extends TestCase
         self::assertSame('0:1632441600000000%d00000000000000a', $feedback->success('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleToken()
     {
         $payload = [
@@ -72,6 +84,12 @@ class PlainTextTest extends TestCase
         self::assertSame('0:1632441600000000%d00000000000000b', $feedback->success('abcdefghij'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testSingleFailure()
     {
         $payload = [
@@ -97,6 +115,12 @@ class PlainTextTest extends TestCase
         self::assertSame('MissingRegistration', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testMultipleFailure()
     {
         $payload = [
@@ -128,6 +152,9 @@ class PlainTextTest extends TestCase
         self::assertSame('MissingRegistration', $feedback->failure('abcdefghij'));
     }
 
+    /**
+     * @return void
+     */
     public function testMakeOption()
     {
         $payload = [
@@ -143,6 +170,11 @@ class PlainTextTest extends TestCase
         self::assertSame('fake-api-key', $options->apiKey);
     }
 
+    /**
+     * @return void
+     *
+     * @throws ValidationException
+     */
     public function testValidateOption()
     {
         $this->expectExceptionCompat(ValidationException::class);
@@ -151,13 +183,24 @@ class PlainTextTest extends TestCase
         $options->validate();
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     */
     public function testInvalidOption()
     {
         $this->expectExceptionCompat(OptionTypeError::class);
 
-        new FCM\PlainText(new FakeOption());
+        new FCM\PlainText(new FakeOption());  // @phpstan-ignore argument.type
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestFailure()
     {
         $payload = [
@@ -183,6 +226,12 @@ class PlainTextTest extends TestCase
         self::assertSame('Internal Server Error', $feedback->failure('1234567890'));
     }
 
+    /**
+     * @return void
+     *
+     * @throws OptionTypeError
+     * @throws ValidationException
+     */
     public function testRequestException()
     {
         $payload = [
