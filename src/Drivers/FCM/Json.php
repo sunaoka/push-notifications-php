@@ -42,6 +42,7 @@ class Json extends Driver
      */
     public function __construct($options)
     {
+        // @phpstan-ignore instanceof.alwaysTrue
         if (! $options instanceof Json\Option) {
             throw new OptionTypeError(Json\Option::class, $options);
         }
@@ -70,7 +71,7 @@ class Json extends Driver
 
             $response = $this->httpClient->post($this->getEndpoint(), $options);
 
-            /** @var array $contents */
+            /** @var array{results: array<int, array{message_id?: string, error?: string}>} $contents */
             $contents = json_decode($response->getBody()->getContents(), true);
 
             foreach ($this->devices as $index => $device) {

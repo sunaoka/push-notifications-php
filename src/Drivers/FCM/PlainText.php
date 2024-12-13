@@ -46,6 +46,7 @@ class PlainText extends Driver
      */
     public function __construct($options)
     {
+        // @phpstan-ignore instanceof.alwaysTrue
         if (! $options instanceof PlainText\Option) {
             throw new OptionTypeError(PlainText\Option::class, $options);
         }

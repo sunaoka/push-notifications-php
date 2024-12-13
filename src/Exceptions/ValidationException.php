@@ -7,7 +7,7 @@ use Exception;
 class ValidationException extends Exception
 {
     /**
-     * @param array|string $errors
+     * @param array<string, array<int, string>>|string $errors
      */
     public function __construct($errors)
     {

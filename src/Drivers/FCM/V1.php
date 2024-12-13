@@ -41,6 +41,7 @@ class V1 extends Driver
      */
     public function __construct($options)
     {
+        // @phpstan-ignore instanceof.alwaysTrue
         if (! $options instanceof V1\Option) {
             throw new OptionTypeError(V1\Option::class, $options);
         }
@@ -86,7 +87,7 @@ class V1 extends Driver
 
             $response = $this->httpClient->post($this->getEndpoint($this->options->projectId), $options);
 
-            /** @var array $contents */
+            /** @var array{name: string} $contents */
             $contents = json_decode($response->getBody()->getContents(), true);
 
             $this->feedback->addSuccess($device, $contents['name']);
@@ -98,7 +99,7 @@ class V1 extends Driver
         }
 
         if (isset($error['contents'])) {
-            /** @var array $json */
+            /** @var array{error: array{status: string, message: string}} $json */
             $json = json_decode($error['contents'], true);
             $status = ! empty($json['error']['status']) ? "[{$json['error']['status']}] " : '';
             $message = ! empty($json['error']['message']) ? $json['error']['message'] : '';

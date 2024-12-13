@@ -20,7 +20,7 @@ abstract class Driver implements DriverInterface
     protected $endpointProduction = '';
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $devices;
 
@@ -48,7 +48,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param array $devices
+     * @param string[] $devices
      *
      * @return self
      */
@@ -92,7 +92,7 @@ abstract class Driver implements DriverInterface
     }
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return GuzzleHttp\Client
      */
@@ -124,10 +124,11 @@ abstract class Driver implements DriverInterface
 
         if ($e instanceof ClientException || $e instanceof ServerException) {
             $response = $e->getResponse();
+            // @phpstan-ignore notIdentical.alwaysTrue
             if ($response !== null) {
                 $message = $response->getReasonPhrase();
                 $contents = $response->getBody()->getContents();
-            } else {  // @phpstan-ignore else.unreachable
+            } else {
                 $message = $e->getMessage();
             }
         } else {

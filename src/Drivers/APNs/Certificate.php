@@ -40,6 +40,7 @@ class Certificate extends Driver
      */
     public function __construct($options)
     {
+        // @phpstan-ignore instanceof.alwaysTrue
         if (! $options instanceof Certificate\Option) {
             throw new OptionTypeError(Certificate\Option::class, $options);
         }
@@ -95,7 +96,7 @@ class Certificate extends Driver
         }
 
         if (isset($error['contents'])) {
-            /** @var array $json */
+            /** @var array{reason: string} $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['reason']);
         } else {

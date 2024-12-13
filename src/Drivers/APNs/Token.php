@@ -41,6 +41,7 @@ class Token extends Driver
      */
     public function __construct($options)
     {
+        // @phpstan-ignore instanceof.alwaysTrue
         if (! $options instanceof Token\Option) {
             throw new OptionTypeError(Token\Option::class, $options);
         }
@@ -97,7 +98,7 @@ class Token extends Driver
         }
 
         if (isset($error['contents'])) {
-            /** @var array $json */
+            /** @var array{reason: string} $json */
             $json = json_decode($error['contents'], true);
             $this->feedback->addFailure($device, $json['reason']);
         } else {
@@ -132,6 +133,7 @@ class Token extends Driver
             throw new RuntimeException((string) openssl_error_string());  // @codeCoverageIgnore
         }
 
+        /** @var string $signature */
         $segments[] = $this->encodeB64URLSafe($signature);
 
         return 'bearer ' . implode('.', $segments);

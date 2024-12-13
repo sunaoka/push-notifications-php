@@ -14,7 +14,7 @@ class Pusher
     protected $production;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $devices = [];
 
@@ -27,7 +27,7 @@ class Pusher
     }
 
     /**
-     * @param array|string $devices
+     * @param string[]|string $devices
      *
      * @return self
      */

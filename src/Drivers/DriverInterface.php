@@ -15,7 +15,7 @@ interface DriverInterface
     public function getOptions();
 
     /**
-     * @param array $devices
+     * @param string[] $devices
      *
      * @return self
      */

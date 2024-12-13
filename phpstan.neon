@@ -1,10 +1,14 @@
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+
 parameters:
 
     paths:
         - src
         - tests
 
-    level: 9
+    level: 10
 
     ignoreErrors:
-        - identifier: missingType.iterableValue
+        - identifier: function.alreadyNarrowedType
+          path: tests/Assert.php

@@ -7,7 +7,7 @@ use Sunaoka\PushNotifications\Exceptions\ValidationException;
 interface DriverOptionInterface
 {
     /**
-     * @param array $options
+     * @param array<string, mixed> $options
      */
     public function __construct($options = []);
 
