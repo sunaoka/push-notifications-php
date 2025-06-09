@@ -10,8 +10,6 @@ class FakeDriver extends Driver
 {
     /**
      * @param DriverOptionInterface $options
-     *
-     * @phpstan-ignore constructor.unusedParameter
      */
     public function __construct($options) {}
 
