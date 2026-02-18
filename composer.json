@@ -30,6 +30,9 @@
         }
     },
     "config": {
+        "audit": {
+            "ignore": ["firebase/php-jwt"]
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
