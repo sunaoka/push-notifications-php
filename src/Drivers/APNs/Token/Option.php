@@ -27,12 +27,12 @@ class Option extends DriverOption
     public $topic;
 
     /**
-     * @var string[][]
+     * @var string[]
      */
-    protected $validationRules = [
-        'authKey' => ['required'],
-        'keyId'   => ['required'],
-        'teamId'  => ['required'],
-        'topic'   => ['required'],
+    protected $required = [
+        'authKey',
+        'keyId',
+        'teamId',
+        'topic',
     ];
 }
