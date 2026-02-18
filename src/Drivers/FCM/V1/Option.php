@@ -17,10 +17,10 @@ class Option extends DriverOption
     public $projectId = '';
 
     /**
-     * @var string[][]
+     * @var string[]
      */
-    protected $validationRules = [
-        'credentials' => ['required'],
-        'projectId'   => ['required'],
+    protected $required = [
+        'credentials',
+        'projectId',
     ];
 }

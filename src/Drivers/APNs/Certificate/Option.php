@@ -22,11 +22,11 @@ class Option extends DriverOption
     public $topic = '';
 
     /**
-     * @var string[][]
+     * @var string[]
      */
-    protected $validationRules = [
-        'certificate' => ['required'],
-        'password'    => ['required'],
-        'topic'       => ['required'],
+    protected $required = [
+        'certificate',
+        'password',
+        'topic',
     ];
 }

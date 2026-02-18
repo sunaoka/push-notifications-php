@@ -123,7 +123,6 @@ abstract class Driver implements DriverInterface
 
         if ($e instanceof ClientException || $e instanceof ServerException) {
             $response = $e->getResponse();
-            // @phpstan-ignore notIdentical.alwaysTrue
             if ($response !== null) {
                 $message = $response->getReasonPhrase();
                 $contents = $response->getBody()->getContents();

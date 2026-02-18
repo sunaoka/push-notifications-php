@@ -3,7 +3,6 @@
 namespace Sunaoka\PushNotifications\Drivers;
 
 use Sunaoka\PushNotifications\Exceptions\ValidationException;
-use Valitron\Validator;
 
 abstract class DriverOption implements DriverOptionInterface
 {
@@ -21,16 +20,9 @@ abstract class DriverOption implements DriverOptionInterface
     public $httpOptions = [];
 
     /**
-     * @var string[][]
+     * @var string[]
      */
-    protected $validationRules = [];
-
-    /**
-     * @var string[][]
-     */
-    private $defaultValidationRules = [
-        'payload' => ['required'],
-    ];
+    protected $required = [];
 
     public function __construct($options = [])
     {
@@ -43,11 +35,19 @@ abstract class DriverOption implements DriverOptionInterface
 
     public function validate()
     {
-        $validator = new Validator((array) $this);
-        $validator->mapFieldsRules(array_merge($this->defaultValidationRules, $this->validationRules));
-        if (! $validator->validate()) {
-            // @phpstan-ignore argument.type
-            throw new ValidationException($validator->errors());
+        $rules = array_merge([
+            'payload',
+        ], $this->required);
+
+        $fails = [];
+        foreach ($rules as $rule) {
+            if (empty($this->{$rule})) {
+                $fails[$rule] = ["{$rule} is required"];
+            }
+        }
+
+        if (! empty($fails)) {
+            throw new ValidationException($fails);
         }
 
         return true;
