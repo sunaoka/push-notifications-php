@@ -2,7 +2,7 @@
 
 ## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.1.0...develop)
 
-## [v1.2.0 (2026-02-18)](https://github.com/sunaoka/push-notifications-php/compare/1.0.6...1.1.0)
+## [v1.2.0 (2026-02-18)](https://github.com/sunaoka/push-notifications-php/compare/1.1.0...1.2.0)
 
 ### Added
 
