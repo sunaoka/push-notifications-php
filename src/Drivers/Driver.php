@@ -97,6 +97,7 @@ abstract class Driver implements DriverInterface
      */
     protected function getHttpClient(array $config = [])
     {
+        // @phpstan-ignore argument.type (Preserve arbitrary HTTP options across Guzzle 6/7/8)
         return new GuzzleHttp\Client(array_merge($config, [
             'handler' => $this->httpHandler,
         ]));
@@ -123,6 +124,7 @@ abstract class Driver implements DriverInterface
 
         if ($e instanceof ClientException || $e instanceof ServerException) {
             $response = $e->getResponse();
+            // @phpstan-ignore notIdentical.alwaysTrue (Guzzle 6/7 may return null)
             if ($response !== null) {
                 $message = $response->getReasonPhrase();
                 $contents = $response->getBody()->getContents();

@@ -80,7 +80,7 @@ class Certificate extends Driver
                 'headers' => [
                     'apns-topic' => $this->options->topic,
                 ],
-                'body'    => json_encode($this->options->payload),
+                'body'    => (string) json_encode($this->options->payload),
             ];
 
             $response = $this->httpClient->post($this->getEndpoint($device), $options);
