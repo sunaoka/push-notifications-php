@@ -2,6 +2,18 @@
 
 ## [Unreleased](https://github.com/sunaoka/push-notifications-php/compare/1.1.0...develop)
 
+## [v1.3.0 (2026-10-16)](https://github.com/sunaoka/push-notifications-php/compare/1.2.0...1.3.0)
+
+### Added
+
+- Add support for Guzzle 8
+
+## [v1.2.0 (2026-02-18)](https://github.com/sunaoka/push-notifications-php/compare/1.1.0...1.2.0)
+
+### Added
+
+- Support PHP 8.5
+
 ## [v1.1.0 (2024-12-13)](https://github.com/sunaoka/push-notifications-php/compare/1.0.6...1.1.0)
 
 ### Added
